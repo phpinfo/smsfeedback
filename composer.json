@@ -1,0 +1,24 @@
+{
+    "name": "phpinfo/smsfeedback",
+    "type": "library",
+    "description": "SmsFeedback simple SDK",
+    "keywords": ["sms", "sdk"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Gromov",
+            "homepage": "https://github.com/phpinfo"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/psr7": "^1.2",
+        "psr/log": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SmsFeedback\\": "src/"
+        }
+    }
+}
