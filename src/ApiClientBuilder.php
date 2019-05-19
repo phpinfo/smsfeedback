@@ -64,7 +64,7 @@ class ApiClientBuilder implements ApiClientBuilderInterface
      *
      * @return ApiClientBuilderInterface
      */
-    public static function create(string $login, string $password): ApiClientBuilderInterface
+    public static function create(string $login = '', string $password = ''): ApiClientBuilderInterface
     {
         return (new self())
             ->setCredentials($login, $password);
