@@ -15,9 +15,8 @@ interface ApiClientInterface
      * @param string      $phone
      * @param string      $text
      * @param string|null $sender
-     * @param string|null $wapurl
-     * @param string|null $scheduleTime
      * @param string|null $statusQueueName
+     * @param string|null $scheduleTime
      *
      * @return MessageDto
      * @throws GuzzleException
@@ -26,9 +25,8 @@ interface ApiClientInterface
         string $phone,
         string $text,
         string $sender = null,
-        string $wapurl = null,
-        string $scheduleTime = null,
-        string $statusQueueName = null
+        string $statusQueueName = null,
+        string $scheduleTime = null
     ): MessageDto;
 
     /**

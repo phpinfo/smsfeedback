@@ -41,7 +41,6 @@ class ApiClient implements ApiClientInterface
      * @param string|null $sender
      * @param string|null $statusQueueName
      * @param string|null $scheduleTime
-     * @param string|null $wapurl
      *
      * @return MessageDto
      * @throws GuzzleException
@@ -51,16 +50,14 @@ class ApiClient implements ApiClientInterface
         string $text,
         ?string $sender = null,
         ?string $statusQueueName = null,
-        ?string $scheduleTime = null,
-        ?string $wapurl = null
+        ?string $scheduleTime = null
     ): MessageDto {
         $params = [
             'phone'           => $phone,
             'text'            => $text,
             'sender'          => $sender,
-            'wapurl'          => $wapurl,
-            'scheduleTime'    => $scheduleTime,
             'statusQueueName' => $statusQueueName,
+            'scheduleTime'    => $scheduleTime,
         ];
 
         $rows = $this->request('messages/v2/send', $params);
