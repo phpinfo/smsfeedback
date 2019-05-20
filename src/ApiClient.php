@@ -97,7 +97,7 @@ class ApiClient implements ApiClientInterface
      */
     public function senders(): array
     {
-        $rows = $this->request('messages/v2/senders.json');
+        $rows = $this->request('messages/v2/senders');
 
         return $this->dtoFactory->createSenderDtoList($rows);
     }
