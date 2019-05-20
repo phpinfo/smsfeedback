@@ -2,6 +2,8 @@ SmsFeedback SDK
 ===============
 This component allows you to simply work with [smsfeedback.ru](https://smsfeedback.ru) base API.
 
+See service [API documentation](https://www.smsfeedback.ru/smsapi/) for more detailed information.
+
 Installation
 ------------
 ```bash
@@ -52,27 +54,87 @@ Will output:
 [2019-05-19 20:21:34] SmsFeedback.INFO: GET /messages/v2/balance HTTP/1.1 200 [] []
 ```
 
-You can specify logger message template. Default value is: "{method} {target} HTTP/{version} {code}"
+You can specify logger message template:
 ```php
 $client = ApiClientBuilder::create('login', 'password')
     ->setLogger($logger)
     ->setLoggerMessageTemplate('my template')
     ->getApiClient();
 ```
+Default value: `{method} {target} HTTP/{version} {code}`.
 
 See Guzzle [MessageFormatter](https://github.com/guzzle/guzzle/blob/master/src/MessageFormatter.php) template variables for more information.  
 
 Sending SMS
 -----------
+Simply sends SMS:
+```php
+$message = $client->send('79161234567', 'SMS Text');
+```
+
+| Argument        | Type    | Description                               | Example                   |
+|-----------------|---------|-------------------------------------------|---------------------------|
+| **phone**       | string  | Phone number                              | 79161234567               |
+| **text**        | string  | SMS Text                                  | Some SMS Text             |
+| sender          | ?string | Sender short name                         | SENDER                    |
+| statusQueueName | ?string | SMS status queue name                     | my-queue                  |
+| scheduleTime    | ?string | Scheduled time to send message (UTC only) | 2009-01-01T12:30:01+00:00 |
+
+Response object:
+```json
+{
+    "id": "A133541BC",
+    "status": "accepted"
+}
+```
 
 Retrieving SMS status
 --------------------
+```php
+$statuses = $client->status(['5169837636', '5169837647']);
+```
+```json
+[
+    {
+        "id": "5169837636",
+        "status": "delivered"
+    },
+    {
+        "id": "5169837647",
+        "status": "delivery error"
+    }
+]
+```
 
 Retrieving balance
 ------------------
+```php
+$balances = $client->balance();
+```
+```json
+[
+    {
+        "type": "RUB",
+        "amount": 385.5,
+        "credit": 0.0
+    }
+]
+```
 
 Retrieving senders
 ------------------
+```php
+$senders = $client->senders();
+```
+```json
+[
+    {
+        "name": "SENDER",
+        "status": "active",
+        "comment": "Some sender comment"
+    }
+]
+```
 
 Manual control
 --------------
