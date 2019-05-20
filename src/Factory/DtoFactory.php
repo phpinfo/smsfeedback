@@ -17,8 +17,8 @@ class DtoFactory
      */
     public function createMessageDto(array $row): MessageDto
     {
-        $id     = (string)($row[0] ?? '');
-        $status = (string)($row[1] ?? '');
+        $id     = (string)($row[1] ?? '');
+        $status = (string)($row[0] ?? '');
 
         return new MessageDto($id, $status);
     }
