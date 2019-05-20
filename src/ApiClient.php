@@ -39,9 +39,9 @@ class ApiClient implements ApiClientInterface
      * @param string      $phone
      * @param string      $text
      * @param string|null $sender
-     * @param string|null $wapurl
-     * @param string|null $scheduleTime
      * @param string|null $statusQueueName
+     * @param string|null $scheduleTime
+     * @param string|null $wapurl
      *
      * @return MessageDto
      * @throws GuzzleException
@@ -49,10 +49,10 @@ class ApiClient implements ApiClientInterface
     public function send(
         string $phone,
         string $text,
-        string $sender = null,
-        string $wapurl = null,
-        string $scheduleTime = null,
-        string $statusQueueName = null
+        ?string $sender = null,
+        ?string $statusQueueName = null,
+        ?string $scheduleTime = null,
+        ?string $wapurl = null
     ): MessageDto {
         $params = [
             'phone'           => $phone,
