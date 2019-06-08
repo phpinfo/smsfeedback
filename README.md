@@ -14,23 +14,16 @@ Simple Usage
 ------------
 The best way to instantiate API client is to use *ApiClientBuilder*:
 ```php
-$client = ApiClientBuilder::create('login', 'password')
-    ->getApiClient();
+$client = ApiClientFactory::createApiClient('login', 'password');
 
 $client->send('71234567', 'Some SMS Text');
 ```
-
-Basic Configuration
--------------------
 You can specify connection timeout (in msec) or API base URI:
 ```php
-$client = ApiClientBuilder::create('login', 'password')
-    ->setTimeout(3000)
-    ->setBaseUri('https://service.mock')
-    ->getApiClient();
+$client = ApiClientFactory::createApiClient('login', 'password', 'https://service.mock', 3000);
 ```
 
-Logging requests
+Logging Requests
 ----------------
 SDK builder supports [psr/logger](https://github.com/php-fig/log). [Monolog](https://github.com/Seldaek/monolog) 
 usage example:
@@ -42,28 +35,28 @@ use Monolog\Logger;
 $handler = new StreamHandler(STDOUT);
 $logger  = new Logger('SmsFeedback', [$handler]);
         
-$client = ApiClientBuilder::create('login', 'password')
-    ->setLogger($logger)
-    ->getApiClient();
-    
+$client = ApiClientFactory::createApiClient('login', 'password', null, null, $logger);
 $client->balance();
 ```
 
 Will output:
 ```bash
 [2019-05-19 20:21:34] SmsFeedback.INFO: GET /messages/v2/balance HTTP/1.1 200 [] []
-```
+```  
 
-You can specify logger message template:
-```php
-$client = ApiClientBuilder::create('login', 'password')
-    ->setLogger($logger)
-    ->setLoggerMessageTemplate('my template')
-    ->getApiClient();
-```
-Default value: `{method} {target} HTTP/{version} {code}`.
+Symfony 4
+---------
+See [SmsFeedback Symfony Bundle](https://github.com/phpinfo/smsfeedback-bundle) for easy integration.
 
-See Guzzle [MessageFormatter](https://github.com/guzzle/guzzle/blob/master/src/MessageFormatter.php) template variables for more information.  
+You can use `ApiClientFactory` in your DI container as well:
+
+```yaml
+SmsFeedback\ApiClientInterface:
+    factory: ['SmsFeedback\Factory\ApiClientFactory', 'createApiClient']
+    arguments:
+        $login: '%env(SMSFEEDBACK_LOGIN)%'
+        $password: '%env(SMSFEEDBACK_PASSWORD)%'
+```
 
 Sending SMS
 -----------
